@@ -21,7 +21,7 @@ The project requires the following dependencies:
 1. **Clone the repository**
    ```sh
    git clone https://github.com/rudraprotapchakraborty/task-management-server.git
-   cd task-manager-server
+   cd task-management-server
    ```
 
 2. **Install dependencies**
