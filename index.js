@@ -1,6 +1,6 @@
+const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const { MongoClient, ObjectId, ServerApiVersion } = require("mongodb");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -20,7 +20,7 @@ const client = new MongoClient(uri, {
 
 async function connectDB() {
     try {
-        await client.connect();
+        // await client.connect();
         console.log("Connected to MongoDB!");
 
         const db = client.db("taskManager");
@@ -96,19 +96,19 @@ async function connectDB() {
             try {
                 const { id } = req.params;
                 if (!ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid task ID" });
-        
+
                 // Remove `_id` if it exists in the request body
                 const { _id, ...updateData } = req.body;
-        
+
                 const result = await tasksCollection.updateOne(
                     { _id: new ObjectId(id) },
                     { $set: updateData }
                 );
-        
+
                 if (result.modifiedCount === 0) {
                     return res.status(404).json({ message: "Task not found or no changes made" });
                 }
-        
+
                 io.emit("updateTasks");
                 res.json({ message: "Task updated successfully" });
             } catch (error) {
@@ -116,19 +116,19 @@ async function connectDB() {
                 res.status(500).json({ message: "Server error updating task", error });
             }
         });
-        
-        
+
+
 
         // Delete a task
         app.delete("/tasks/:id", async (req, res) => {
             try {
                 const { id } = req.params;
                 if (!ObjectId.isValid(id)) return res.status(400).json({ message: "Invalid task ID" });
-        
+
                 const result = await tasksCollection.deleteOne({ _id: new ObjectId(id) });
-        
+
                 if (result.deletedCount === 0) return res.status(404).json({ message: "Task not found" });
-        
+
                 io.emit("updateTasks");
                 res.json({ message: "Task deleted successfully" });
             } catch (error) {
@@ -136,7 +136,7 @@ async function connectDB() {
                 res.status(500).json({ message: "Server error deleting task", error });
             }
         });
-        
+
 
         // Reorder tasks
         app.put("/tasks/reorder", async (req, res) => {
@@ -158,6 +158,10 @@ async function connectDB() {
         });
 
         //Server Running
+        app.get('/', (req, res) => {
+            res.send('Task management server is running!');
+        });
+
         server.listen(port, () => console.log(`Server running on port ${port}`));
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
