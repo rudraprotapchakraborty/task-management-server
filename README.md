@@ -39,7 +39,7 @@ The project requires the following dependencies:
 
 4. **Run the server**
    ```sh
-   npm start
+   nodemon index.js
    ```
 
 ## 🛠️ Technologies Used
