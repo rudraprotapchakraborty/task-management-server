@@ -20,7 +20,7 @@ The project requires the following dependencies:
 
 1. **Clone the repository**
    ```sh
-   git clone https://github.com/rudraprotapchakraborty/task-manager-server.git
+   git clone https://github.com/rudraprotapchakraborty/task-management-server.git
    cd task-manager-server
    ```
 
